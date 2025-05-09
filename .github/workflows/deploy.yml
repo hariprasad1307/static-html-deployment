@@ -1,0 +1,20 @@
+name: Deploy HTML to Jenkins
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Notify Jenkins for Deployment
+        run: |
+          curl -X POST http://10.0.2.15:8080/job/HTML-Deploy/build \
+            --user "hari:117cade12b03f8a6f6c22158bccb75433a" \
+            --data "token=html-deploy-token"
