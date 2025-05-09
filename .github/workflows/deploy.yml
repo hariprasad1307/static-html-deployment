@@ -13,15 +13,7 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v3
 
-      - name: Get Jenkins CSRF Token
-        id: get_crumb
-        run: |
-          CRUMB=$(curl -u "hari:11e11ea1abf2d31d2b0ab1e7e127b5f208" -s 'http://10.0.2.15:8080/crumbIssuer/api/json' | jq -r '.crumb')
-          echo "CRUMB=$CRUMB" >> $GITHUB_ENV
-
       - name: Notify Jenkins for Deployment
         run: |
-          curl -X POST http://10.0.2.15:8080/job/HTML-Deploy/build \
-            --user "hari:11e11ea1abf2d31d2b0ab1e7e127b5f208" \
-            -H "Jenkins-Crumb: ${{ env.CRUMB }}" \
-            --data "token=html-deploy-token"
+          curl -X POST "http://10.0.2.15:8080/job/HTML-Deploy/build?token=html-deploy-token" \
+            --user "hari:11a9420ab71108bbbd36b757f79fd0f02e"
